@@ -37,7 +37,7 @@ jobs:
       - name: Setup MySQL ODBC Drivers
         if: matrix.py-db-module == 'pyodbc'
         run: |
-          apt-get install libmyodbc      
+          sudo apt-get install libmyodbc      
       - uses: actions/setup-python@v2
         with:
           python-version: '3.8'
