@@ -28,9 +28,11 @@ jobs:
           wget -P /tmp/ https://downloads.mysql.com/docs/sakila-db.zip
           unzip /tmp/sakila-db.zip -d /tmp
       - name: Setup Database
+        #  mysql -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }} -D${{ env.DB_DATABASE }} < /tmp/sakila-db/sakila-schema.sql
+        #  mysql -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }} -D${{ env.DB_DATABASE }} < /tmp/sakila-db/sakila-data.sql
         run: |
-          mysql -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }} -D${{ env.DB_DATABASE }} < /tmp/sakila-db/sakila-schema.sql
-          mysql -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }} -D${{ env.DB_DATABASE }} < /tmp/sakila-db/sakila-data.sql
+          mysql -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }} -D${{ matrix.py-db-module }} < /tmp/sakila-db/sakila-schema.sql
+          mysql -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }} -D${{ matrix.py-db-module }} < /tmp/sakila-db/sakila-data.sql
       - uses: actions/setup-python@v2
         with:
           python-version: '3.8'
@@ -46,7 +48,7 @@ jobs:
         run: |
           pip install ${{ matrix.py-db-module }}
       - name: Run Robot Framework tests using PyMySQL
-        if: matrix.py-db-module == 'pymysql'
+        if: matrix.py-db-module == 'ignore-pymysql'
         working-directory: ./test
         run: |
           robot -v DBUser:${{ env.DB_USER }} -v DBPass:${{ env.DB_PASSWORD }} ${{ github.workspace }}/test/MySQL_DB_Tests.robot
