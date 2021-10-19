@@ -6,19 +6,22 @@ env:
   DB_DATABASE: my_db_test
   DB_USER: root
   DB_PASSWORD: root
+  DB_HOST: 127.0.0.1
+  DB_PORT: 3306
 
 jobs:
   dbsetup:
     runs-on: ubuntu-18.04
     strategy:
       matrix:
-        py-db-module: ["pymysql", "pyodbc"]
+        py-db-module: ["pymysql", "pyodbc", "pymssql"]
     steps:
       - uses: actions/checkout@v2
       - name: Set up MySQL
+        # mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
         run: |
           sudo /etc/init.d/mysql start
-          mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
+          mysql -e 'CREATE DATABASE ${{ matrix.py-db-module }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
           mysql -e "SHOW DATABASES;" -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
       - name: Download the Sakila Database
         run: |
@@ -46,6 +49,13 @@ jobs:
         if: matrix.py-db-module == 'pymysql'
         working-directory: ./test
         run: |
-          ls -lh ${{ github.workspace }}
           robot -v DBUser:${{ env.DB_USER }} -v DBPass:${{ env.DB_PASSWORD }} ${{ github.workspace }}/test/MySQL_DB_Tests.robot
-          
+      - name: Run Robot Framework tests using pyodbc
+        if: matrix.py-db-module == 'ignore-pyodbc'
+        working-directory: ./test
+        run: |
+          robot -v DBUser:${{ env.DB_USER }} -v DBPass:${{ env.DB_PASSWORD }} ${{ github.workspace }}/test/PyODBC_DB_Tests.robot
+      - name: Run Robot Framework tests using ${{ matrix.py-db-module }}
+        working-directory: ./test
+        run: |
+          robot -v DBName:${{ matrix.py-db-module }} -v DBUser:${{ env.DB_USER }} -v DBPass:${{ env.DB_PASSWORD }} -v DBHost:${{ env.DB_HOST }} -v DBPort:${{ env.DB_PORT }} ${{ github.workspace }}/test/PyODBC_DB_Tests.robot
