@@ -39,13 +39,9 @@ jobs:
         if: matrix.py-db-module == 'pyodbc'
         run: |
           sudo curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
-          #Ubuntu 18.04
           sudo curl https://packages.microsoft.com/config/ubuntu/18.04/prod.list > /etc/apt/sources.list.d/mssql-release.list
           sudo apt-get update
           sudo ACCEPT_EULA=Y apt-get install -y msodbcsql17
-
-          #sudo apt-get install unixodbc unixodbc-dev
-          #sudo apt-get install tdsodbc      
       - uses: actions/setup-python@v2
         with:
           python-version: '3.8'
