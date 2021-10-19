@@ -18,7 +18,7 @@ jobs:
       - name: Download the Sakila Database
         run: |
           wget -P /tmp/ https://downloads.mysql.com/docs/sakila-db.zip
-          unzip /tmp/sakila-db.zip -d .
+          unzip /tmp/sakila-db.zip -d /tmp
           ls /tmp
           ls /tmp/sakila-db
       - name: Setup Database
