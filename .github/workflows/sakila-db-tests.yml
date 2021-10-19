@@ -7,8 +7,11 @@ env:
   DB_USER: root
   DB_PASSWORD: root
 
-steps:
-  - name: Set up MySQL
-    run: |
-      sudo /etc/init.d/mysql start
-      mysql -e "SHOW DATABASES;" -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
+jobs:
+  db-setup:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Set up MySQL
+        run: |
+          sudo /etc/init.d/mysql start
+          mysql -e "SHOW DATABASES;" -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
