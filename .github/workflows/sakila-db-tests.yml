@@ -15,3 +15,11 @@ jobs:
         run: |
           sudo /etc/init.d/mysql start
           mysql -e "SHOW DATABASES;" -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
+      - name: Download the Sakila Database
+        run: |
+          wget -P /tmp/sakila-db/ https://downloads.mysql.com/docs/sakila-db.zip
+          unzip /tmp/sakila-db.zip
+      - name: Setup Database
+        run: |
+          mysql -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }} -D{{ env.DB_DATABASE }} < /tmp/sakila-db/sakila-schema.sql
+          mysql -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }} -D{{ env.DB_DATABASE }} < /tmp/sakila-db/sakila-data.sql
