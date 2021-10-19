@@ -17,7 +17,7 @@ jobs:
           mysql -e "SHOW DATABASES;" -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
       - name: Download the Sakila Database
         run: |
-          wget -P /tmp/sakila-db/ https://downloads.mysql.com/docs/sakila-db.zip
+          wget -P /tmp/ https://downloads.mysql.com/docs/sakila-db.zip
           unzip /tmp/sakila-db.zip
       - name: Setup Database
         run: |
