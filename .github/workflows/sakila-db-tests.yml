@@ -38,7 +38,7 @@ jobs:
       - name: Setup Robot Framework
         run: |
           pip install robotframework
-          pip install robotframework-dblibrary
+          pip install robotframework-databaselibrary
       - name: Setup Python DB module
         run: |
           pip install ${{ matrix.py-db-module }}
