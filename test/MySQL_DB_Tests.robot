@@ -79,9 +79,9 @@ Verify person Description
     ${output} =    Set Variable    ${queryResults[0]}
     Should Be Equal As Strings    ${output}    ('id', 3, None, 11, 11, 0, True)
     ${output} =    Set Variable    ${queryResults[1]}
-    Should Be Equal As Strings    ${output}    ('first_name', 253, None, 20, 20, 0, True)
+    Should Be Equal As Strings    ${output}    ('first_name', 253, None, 80, 80, 0, True)
     ${output} =    Set Variable    ${queryResults[2]}
-    Should Be Equal As Strings    ${output}    ('last_name', 253, None, 20, 20, 0, True)
+    Should Be Equal As Strings    ${output}    ('last_name', 253, None, 80, 80, 0, True)
     ${NumColumns} =    Get Length    ${queryResults}
     Should Be Equal As Integers    ${NumColumns}    3
 
@@ -93,7 +93,7 @@ Verify foobar Description
     ${output} =    Set Variable    ${queryResults[0]}
     Should Be Equal As Strings    ${output}    ('id', 3, None, 11, 11, 0, False)
     ${output} =    Set Variable    ${queryResults[1]}
-    Should Be Equal As Strings    ${output}    ('firstname', 253, None, 20, 20, 0, True)
+    Should Be Equal As Strings    ${output}    ('firstname', 253, None, 80, 80, 0, True)
     ${NumColumns} =    Get Length    ${queryResults}
     Should Be Equal As Integers    ${NumColumns}    2
 
