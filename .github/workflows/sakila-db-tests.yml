@@ -38,7 +38,8 @@ jobs:
         #  sudo apt-get install libmyodbc      
         if: matrix.py-db-module == 'pyodbc'
         run: |
-          sudo apt-get install unixodbc      
+          sudo apt-get install unixodbc unixodbc-dev
+          sudo apt-get install tdsodbc      
       - uses: actions/setup-python@v2
         with:
           python-version: '3.8'
