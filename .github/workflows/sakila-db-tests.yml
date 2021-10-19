@@ -45,7 +45,6 @@ jobs:
       - name: Run Robot Framework tests using PyMySQL
         if: matrix.py-db-module == 'pymysql'
         run: |
-          find / 2>&1 > MySQL_DB_Tests.robot | grep -v 'Permission denied' >&2
           ls -lh ${{ github.workspace }}
-          robot -v DBUser:${{ env.DB_USER }} -v DBPass:${{ env.DB_PASSWORD }} ${{ github.workspace }}/tests/MySQL_DB_Tests.robot
+          robot -v DBUser:${{ env.DB_USER }} -v DBPass:${{ env.DB_PASSWORD }} tests/MySQL_DB_Tests.robot
           
