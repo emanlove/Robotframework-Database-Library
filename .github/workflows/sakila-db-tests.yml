@@ -10,6 +10,9 @@ env:
 jobs:
   dbsetup:
     runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        py-db-module: ["pymysql", "pyobdc"]
     steps:
       - name: Set up MySQL
         run: |
@@ -20,9 +23,10 @@ jobs:
         run: |
           wget -P /tmp/ https://downloads.mysql.com/docs/sakila-db.zip
           unzip /tmp/sakila-db.zip -d /tmp
-          ls /tmp
-          ls /tmp/sakila-db
       - name: Setup Database
         run: |
           mysql -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }} -D${{ env.DB_DATABASE }} < /tmp/sakila-db/sakila-schema.sql
           mysql -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }} -D${{ env.DB_DATABASE }} < /tmp/sakila-db/sakila-data.sql
+      - name: Setup Python DB module
+        run: |
+          pip install ${{ matrix.py-db-module }}
