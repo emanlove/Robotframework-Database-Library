@@ -13,6 +13,7 @@ jobs:
   dbsetup:
     runs-on: ubuntu-18.04
     strategy:
+      fail-fast: false
       matrix:
         py-db-module: ["pymysql", "pyodbc", "pymssql"]
     steps:
