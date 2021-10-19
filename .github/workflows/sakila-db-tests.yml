@@ -8,7 +8,7 @@ env:
   DB_PASSWORD: root
 
 jobs:
-  db-setup:
+  dbsetup:
     runs-on: ubuntu-18.04
     steps:
       - name: Set up MySQL
