@@ -39,7 +39,7 @@ jobs:
         if: matrix.py-db-module == 'pyodbc'
         run: |
           wget -qO - https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
-          sudo sh -c 'echo "deb https://packages.microsoft.com/config/ubuntu/18.04/prod.list" > /etc/apt/sources.list.d/mssql-release.list'
+          sudo sh -c 'echo "deb https://packages.microsoft.com/ubuntu/18.04/prod bionic main" > /etc/apt/sources.list.d/mssql-release.list'
           sudo apt-get update
           sudo ACCEPT_EULA=Y apt-get install -y msodbcsql17
       - name: Setup MySQL ODBC Drivers
