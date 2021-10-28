@@ -81,7 +81,9 @@ jobs:
         working-directory: ./test
         run: |
           robot -v DBName:${{ matrix.py-db-module }} -v DBUser:${{ env.DB_USER }} -v DBPass:${{ env.DB_PASSWORD }} -v DBHost:${{ env.DB_HOST }} -v DBPort:${{ env.DB_PORT }} ${{ github.workspace }}/test/PyODBC_DB_Tests.robot
-      - uses: actions/upload-artifact@v2
+      - name: Upload Robot Logs
+        if: always()
+        uses: actions/upload-artifact@v2
         with:
           name: log-files
-          path: .
+          path: ./test/${{ matrix.py-db-module }}/
