@@ -69,6 +69,7 @@ jobs:
         if: matrix.py-db-module == 'pyodbc'
         working-directory: ./test
         run: |
+          python3 -c "import pyodbc; print(pyodbc.drivers())"
           robot -v DBName:${{ matrix.py-db-module }} -v DBUser:${{ env.DB_USER }} -v DBPass:${{ env.DB_PASSWORD }} -v DBHost:${{ env.DB_HOST }} -v DBPort:${{ env.DB_PORT }} -v dbDriver:"{ODBC Driver 17 for SQL Server}" ${{ github.workspace }}/test/PyODBC_DB_Tests.robot
       - name: Run Robot Framework tests using PyMSSQL
         if: matrix.py-db-module == 'pymssql'
