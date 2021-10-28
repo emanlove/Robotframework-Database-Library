@@ -64,18 +64,18 @@ jobs:
         if: matrix.py-db-module == 'pymysql'
         working-directory: ./test
         run: |
-          robot -o pymysql/ -v DBName:${{ matrix.py-db-module }} -v DBUser:${{ env.DB_USER }} -v DBPass:${{ env.DB_PASSWORD }} -v DBHost:${{ env.DB_HOST }} -v DBPort:${{ env.DB_PORT }} ${{ github.workspace }}/test/MySQL_DB_Tests.robot
+          robot -d pymysql/ -v DBName:${{ matrix.py-db-module }} -v DBUser:${{ env.DB_USER }} -v DBPass:${{ env.DB_PASSWORD }} -v DBHost:${{ env.DB_HOST }} -v DBPort:${{ env.DB_PORT }} ${{ github.workspace }}/test/MySQL_DB_Tests.robot
       - name: Run Robot Framework tests using PyODBC
         if: matrix.py-db-module == 'pyodbc'
         working-directory: ./test
         run: |
           python3 -c "import pyodbc; print(pyodbc.drivers())"
-          robot -o pyodbc/ -v DBName:${{ matrix.py-db-module }} -v DBUser:${{ env.DB_USER }} -v DBPass:${{ env.DB_PASSWORD }} -v DBHost:${{ env.DB_HOST }} -v DBPort:${{ env.DB_PORT }} -v dbDriver:"{ODBC Driver 17 for SQL Server}" ${{ github.workspace }}/test/PyODBC_DB_Tests.robot
+          robot -d pyodbc/ -v DBName:${{ matrix.py-db-module }} -v DBUser:${{ env.DB_USER }} -v DBPass:${{ env.DB_PASSWORD }} -v DBHost:${{ env.DB_HOST }} -v DBPort:${{ env.DB_PORT }} -v dbDriver:"{ODBC Driver 17 for SQL Server}" ${{ github.workspace }}/test/PyODBC_DB_Tests.robot
       - name: Run Robot Framework tests using PyMSSQL
         if: matrix.py-db-module == 'pymssql'
         working-directory: ./test
         run: |
-          robot -o pymssql/ -v DBName:${{ matrix.py-db-module }} -v DBUser:${{ env.DB_USER }} -v DBPass:${{ env.DB_PASSWORD }} -v DBHost:${{ env.DB_HOST }} -v DBPort:${{ env.DB_PORT }} ${{ github.workspace }}/test/MSSQL_DB_Tests.robot
+          robot -d pymssql/ -v DBName:${{ matrix.py-db-module }} -v DBUser:${{ env.DB_USER }} -v DBPass:${{ env.DB_PASSWORD }} -v DBHost:${{ env.DB_HOST }} -v DBPort:${{ env.DB_PORT }} ${{ github.workspace }}/test/MSSQL_DB_Tests.robot
       - name: Run Robot Framework tests using ${{ matrix.py-db-module }}
         if: matrix.py-db-module == 'ignore-all-modules'
         working-directory: ./test
