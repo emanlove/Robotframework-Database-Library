@@ -1,10 +1,11 @@
 *** Settings ***
-Suite Setup       Connect To Database    pyodbc    ${DBName}    ${DBUser}    ${DBPass}    ${DBHost}    ${DBPort}    dbDriver=${dbDriver}
+Suite Setup       Connect To Database    ${DBModule}    ${DBName}    ${DBUser}    ${DBPass}    ${DBHost}    ${DBPort}    dbDriver=${dbDriver}
 Suite Teardown    Disconnect From Database
 Library           DatabaseLibrary
 Library           OperatingSystem
 
 *** Variables ***
+${DBModule}       pyodbc
 ${DBHost}         ${EMPTY}
 ${DBName}         ${EMPTY}
 ${DBPass}         ${EMPTY}
