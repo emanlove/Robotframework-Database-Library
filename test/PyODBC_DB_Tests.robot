@@ -11,7 +11,7 @@ ${DBName}         ${EMPTY}
 ${DBPass}         ${EMPTY}
 ${DBPort}         ${EMPTY}
 ${DBUser}         ${EMPTY}
-${dbDriver}       ${EMPTY}
+#${dbDriver}       ${EMPTY}
 
 *** Test Cases ***
 Create person table
