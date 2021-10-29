@@ -1,5 +1,5 @@
 *** Settings ***
-Suite Setup       Connect To Database    ${DBModule}    ${DBName}    ${DBUser}    ${DBPass}    ${DBHost}    ${DBPort}    dbDriver=${dbDriver}
+Suite Setup       Connect To Database    ${DBModule}    ${DBName}    ${DBUser}    ${DBPass}    ${DBHost}    ${DBPort}    ${None}    dbDriver=${dbDriver}
 Suite Teardown    Disconnect From Database
 Library           DatabaseLibrary
 Library           OperatingSystem
