@@ -24,6 +24,7 @@ jobs:
           sudo /etc/init.d/mysql start
           mysql -e 'CREATE DATABASE ${{ matrix.py-db-module }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
           mysql -e "SHOW DATABASES;" -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
+          netstat -ano
       - name: Download the Sakila Database
         run: |
           wget -P /tmp/ https://downloads.mysql.com/docs/sakila-db.zip
