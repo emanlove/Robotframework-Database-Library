@@ -58,7 +58,7 @@ jobs:
           pip install robotframework
       - name: Install Development/Checked out version of DatabaseLibrary
         run: |
-          pip install ${{ github.workspace }}/Robotframework-Database-Library
+          pip install ${{ github.workspace }}/.
       - name: Setup Python DB module
         run: |
           pip install ${{ matrix.py-db-module }}
