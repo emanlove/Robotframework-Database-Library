@@ -46,6 +46,9 @@ jobs:
           echo "-- /etc/odbc.ini --"
           sudo cat /etc/odbc.ini
           echo "-------------------"
+          sudo echo "[ODBC]" > /etc/odbcinst.ini
+          sudo echo "Trace = yes" > /etc/odbcinst.ini
+          sudo echo "TraceFile = ${{ github.workspace }}/test/odbc_log.txt" > /etc/odbcinst.ini
           echo "-- /etc/odbcinst.ini --"
           sudo cat /etc/odbcinst.ini
           echo "-----------------------"
