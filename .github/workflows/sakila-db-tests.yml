@@ -47,7 +47,7 @@ jobs:
           sudo cat /etc/odbc.ini
           echo "-------------------"
           sudo sh -c 'cat << EOF >> /etc/odbcinst.ini
-                     [ODBC]
+          [ODBC]
           Trace = yes
           TraceFile = ${{ github.workspace }}/test/odbc_log.txt
           EOF'
