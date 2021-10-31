@@ -43,8 +43,12 @@ jobs:
           sudo sh -c 'echo "deb https://packages.microsoft.com/ubuntu/18.04/prod bionic main" > /etc/apt/sources.list.d/mssql-release.list'
           sudo apt-get update
           sudo ACCEPT_EULA=Y apt-get install -y msodbcsql17
+          echo "-- /etc/odbc.ini --"
           sudo cat /etc/odbc.ini
+          echo "-------------------"
+          echo "-- /etc/odbcinst.ini --"
           sudo cat /etc/odbcinst.ini
+          echo "-----------------------"
       - name: Setup MySQL ODBC Drivers
         if: matrix.py-db-module == 'pymssql'
         run: |
