@@ -43,6 +43,7 @@ jobs:
           # sudo ACCEPT_EULA=Y apt-get install -y msodbcsql17
         if: matrix.py-db-module == 'pyodbc'
         run: |
+          sudo apt-get install libssl1.0.0 libssl-dev
           echo "-- /etc/odbc.ini --"
           sudo cat /etc/odbc.ini
           echo "-------------------"
