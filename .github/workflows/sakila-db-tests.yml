@@ -55,8 +55,8 @@ jobs:
           sudo cat /etc/odbcinst.ini
           echo "-----------------------"
           odbcinst -j
-          sudo ln -s /usr/local/etc/odbcinst.ini /etc/odbcinst.ini
-          sudo ln -s /usr/local/etc/odbc.ini /etc/odbc.ini
+          # sudo ln -s /usr/local/etc/odbcinst.ini /etc/odbcinst.ini
+          # sudo ln -s /usr/local/etc/odbc.ini /etc/odbc.ini
       - name: Setup MySQL ODBC Drivers
         if: matrix.py-db-module == 'pymssql'
         run: |
