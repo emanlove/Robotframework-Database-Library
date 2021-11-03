@@ -1,6 +1,10 @@
 name: Database Library Tests
 
-on: workflow_dispatch
+on: 
+  workflow_dispatch:
+    branches: [github-actions]
+  push:
+    branches: [github-actions]
 
 env:
   DB_DATABASE: my_db_test
@@ -15,7 +19,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        py-db-module: ["pymysql", "pyodbc", "pymssql", "MySQLdb"]
+        # py-db-module: ["pymysql", "pyodbc", "pymssql", "MySQLdb"]
+        include:
+          - db-name: PyMySQL
+            py-db-module: pymysql
+          - db-name: PyODBC
+            py-db-module: pyodbc
+          - db-name: PyMSSQL
+            py-db-module: pymssql
+          - db-name: MySQLdb
+            py-db-module: mysqlclient
     steps:
       - uses: actions/checkout@v2
 
