@@ -1,5 +1,5 @@
 *** Settings ***
-Suite Setup       Connect To Database    ${DBModule}    ${DBName}    ${DBUser}    ${DBPass}    dbHost=${DBHost}    dbPort=${DBPort}    dbCharset=${None}    dbDriver=${dbDriver}
+Suite Setup       Connect To Database    ${DBModule}    ${DBName}    ${DBUser}    ${DBPass}    dbHost=${DBHost}    dbPort=${DBPort}    dbCharset=${DBCharset}    dbDriver=${dbDriver}
 Suite Teardown    Disconnect From Database
 Library           DatabaseLibrary
 Library           OperatingSystem
@@ -11,6 +11,7 @@ ${DBName}         ${EMPTY}
 ${DBPass}         ${EMPTY}
 ${DBPort}         ${EMPTY}
 ${DBUser}         ${EMPTY}
+${DBCharset}      ${None}
 #${dbDriver}       ${EMPTY}
 
 *** Test Cases ***
