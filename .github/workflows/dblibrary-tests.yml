@@ -116,7 +116,13 @@ jobs:
         if: matrix.py-db-module == 'pymysql'
         working-directory: ./test
         run: |
-          robot -d pymysql/ -v DBName:${{ matrix.py-db-module }} -v DBUser:${{ env.DB_USER }} -v DBPass:${{ env.DB_PASSWORD }} -v DBHost:${{ env.DB_HOST }} -v DBPort:${{ env.DB_PORT }} ${{ github.workspace }}/test/MySQL_DB_Tests.robot
+          robot -d pymysql/ -v DBModule:${{ matrix.py-db-module }} -v DBName:${{ matrix.py-db-module }} -v DBUser:${{ env.DB_USER }} -v DBPass:${{ env.DB_PASSWORD }} -v DBHost:${{ env.DB_HOST }} -v DBPort:${{ env.DB_PORT }} ${{ github.workspace }}/test/MySQL_DB_Tests.robot
+
+      - name: Run Robot Framework tests using MySQLdb
+        if: matrix.py-db-module == 'mysqlclient'
+        working-directory: ./test
+        run: |
+          robot -d mysqldb/ -v DBModule:${{ matrix.py-db-module }} -v DBName:${{ matrix.py-db-module }} -v DBUser:${{ env.DB_USER }} -v DBPass:${{ env.DB_PASSWORD }} -v DBHost:${{ env.DB_HOST }} -v DBPort:${{ env.DB_PORT }} ${{ github.workspace }}/test/MySQL_DB_Tests.robot
 
       - name: Run Robot Framework tests using PyODBC
         if: matrix.py-db-module == 'pyodbc'
