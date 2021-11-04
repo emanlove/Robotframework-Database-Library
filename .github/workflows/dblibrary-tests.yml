@@ -23,12 +23,16 @@ jobs:
         include:
           - db-name: PyMySQL
             py-db-module: pymysql
+            pip-install: pymysql
           - db-name: PyODBC
             py-db-module: pyodbc
+            pip-install: pyodbc     
           - db-name: PyMSSQL
             py-db-module: pymssql
+            pip-install: pymssql    
           - db-name: MySQLdb
-            py-db-module: mysqlclient
+            py-db-module: MySQLdb
+            pip-install: mysqlclient
     steps:
       - uses: actions/checkout@v2
 
@@ -110,7 +114,7 @@ jobs:
 
       - name: Setup Python DB module
         run: |
-          pip install ${{ matrix.py-db-module }}
+          pip install ${{ matrix.pip-install }}
 
       - name: Run Robot Framework tests using PyMySQL
         if: matrix.py-db-module == 'pymysql'
