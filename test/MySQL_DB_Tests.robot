@@ -1,5 +1,5 @@
 *** Settings ***
-Suite Setup       Connect To Database    pymysql    ${DBName}    ${DBUser}    ${DBPass}    ${DBHost}    ${DBPort}
+Suite Setup       Connect To Database    ${DBModule}    ${DBName}    ${DBUser}    ${DBPass}    ${DBHost}    ${DBPort}
 Suite Teardown    Disconnect From Database
 Library           DatabaseLibrary
 Library           OperatingSystem
