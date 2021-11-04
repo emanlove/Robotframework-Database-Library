@@ -123,7 +123,7 @@ jobs:
           robot -d pymysql/ -v DBModule:${{ matrix.py-db-module }} -v DBName:${{ matrix.py-db-module }} -v DBUser:${{ env.DB_USER }} -v DBPass:${{ env.DB_PASSWORD }} -v DBHost:${{ env.DB_HOST }} -v DBPort:${{ env.DB_PORT }} ${{ github.workspace }}/test/MySQL_DB_Tests.robot
 
       - name: Run Robot Framework tests using MySQLdb
-        if: matrix.py-db-module == 'mysqlclient'
+        if: matrix.py-db-module == 'MySQLdb'
         working-directory: ./test
         run: |
           robot -d mysqldb/ -v DBModule:${{ matrix.py-db-module }} -v DBName:${{ matrix.py-db-module }} -v DBUser:${{ env.DB_USER }} -v DBPass:${{ env.DB_PASSWORD }} -v DBHost:${{ env.DB_HOST }} -v DBPort:${{ env.DB_PORT }} ${{ github.workspace }}/test/MySQL_DB_Tests.robot
