@@ -21,13 +21,13 @@ jobs:
         image: mysql:8
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
-          MYSQL_USER: '${DB_USER}'
-          MYSQL_PASSWORD: '${DB_PASSWORD}'
-          MYSQL_DATABASE: '${DB_DATABASE}'
+          MYSQL_USER: user
+          MYSQL_PASSWORD: password
+          MYSQL_DATABASE: db
         ports:
-          - 3306:${DB_PORT}
+          - '3306'
         # needed because the postgres container does not provide a healthcheck
-        options: --health-cmd 'mysqladmin ping -h localhost' --health-interval 10s --health-timeout 5s --health-retries 5
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
 
     steps:
       - name: Check out repository code
@@ -52,13 +52,20 @@ jobs:
         run: |
           echo "DB_HOST=${{ env.ACT_DB_HOST }}" >> $GITHUB_ENV
           echo "DB_PORT=${{ env.ACT_MYSQL_DB_PORT }}" >> $GITHUB_ENV
+
+      - name: Set DB options if not in ACT
+        if: ${{ !env.ACT }}
+        run: |
+          echo "DB_HOST=localhost" >> $GITHUB_ENV
+          echo "DB_PORT=${{ job.services.mysql.ports[3306] }}" >> $GITHUB_ENV
+
       - name: Run Robot Framework tests using pymysql
-        continue-on-error: true
         working-directory: ./test
         run: |
-          robot -T --xunit result.xml -d results/ -v DBModule:${{ env.DB_MODULE }} -v DBName:${DB_DATABASE} -v DBUser:${DB_USER} -v DBPass:${DB_PASSWORD} -v DBHost:${DB_HOST} -v DBPort:${DB_PORT} ${{ github.workspace }}/test/MySQL_DB_Tests.robot
+          robot -T --xunit result.xml -d results/ -v DBModule:${{ env.DB_MODULE }} -v DBName:${{ env.DB_DATABASE }} -v DBUser:${{ env.DB_USER }} -v DBPass:${{ env.DB_PASSWORD }} -v DBHost:${{ env.DB_HOST }} -v DBPort:${{ env.DB_PORT }} ${{ github.workspace }}/test/MySQL_DB_Tests.robot
+
       - name: Upload Robot Logs
-        if: always()
+        if: ${{ always() }}
         uses: actions/upload-artifact@v2
         with:
           name: log-files

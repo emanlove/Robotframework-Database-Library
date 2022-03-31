@@ -26,13 +26,12 @@ jobs:
           pip install -e ${{ github.workspace }}
 
       - name: Run Robot Framework tests using SQLite3
-        continue-on-error: true
         working-directory: ./test
         run: |
           robot -T --xunit result.xml -d results/ ${{ github.workspace }}/test/SQLite3_DB_Tests.robot
 
       - name: Upload Robot Logs
-        if: always()
+        if: ${{ always() }}
         uses: actions/upload-artifact@v2
         with:
           name: log-files
