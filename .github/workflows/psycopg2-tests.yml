@@ -20,11 +20,11 @@ jobs:
       postgres:
         image: postgres:11
         env:
-          POSTGRES_DB: ${DB_DATABASE}
-          POSTGRES_USER: ${DB_USER}
-          POSTGRES_PASSWORD: ${DB_PASSWORD}
+          POSTGRES_DB: db
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
         ports:
-          - 5432:${DB_PORT}
+          - '5432'
         # needed because the postgres container does not provide a healthcheck
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
@@ -51,13 +51,20 @@ jobs:
         run: |
           echo "DB_HOST=${{ env.ACT_DB_HOST }}" >> $GITHUB_ENV
           echo "DB_PORT=${{ env.ACT_POSTGRES_DB_PORT }}" >> $GITHUB_ENV
+
+      - name: Set DB options if not in ACT
+        if: ${{ !env.ACT }}
+        run: |
+          echo "DB_HOST=localhost" >> $GITHUB_ENV
+          echo "DB_PORT=${{ job.services.postgres.ports[5432] }}" >> $GITHUB_ENV
+
       - name: Run Robot Framework tests using psycopg2
-        continue-on-error: true
         working-directory: ./test
         run: |
-          robot -T --xunit result.xml -d results/ -v DBModule:${{ env.DB_MODULE }} -v DBName:${DB_DATABASE} -v DBUser:${DB_USER} -v DBPass:${DB_PASSWORD} -v DBHost:${DB_HOST} -v DBPort:${DB_PORT} ${{ github.workspace }}/test/PostgreSQL_DB_Tests.robot
+          robot -T --xunit result.xml -d results/ -v DBModule:${{ env.DB_MODULE }} -v DBName:${{ env.DB_DATABASE }} -v DBUser:${{ env.DB_USER }} -v DBPass:${{ env.DB_PASSWORD }} -v DBHost:${{ env.DB_HOST }} -v DBPort:${{ env.DB_PORT }} ${{ github.workspace }}/test/PostgreSQL_DB_Tests.robot
+
       - name: Upload Robot Logs
-        if: always()
+        if: ${{ always() }}
         uses: actions/upload-artifact@v2
         with:
           name: log-files
