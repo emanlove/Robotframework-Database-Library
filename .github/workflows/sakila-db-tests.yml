@@ -1,6 +1,6 @@
 name: Sakila Tests
 
-on: workflow_dispatch
+on: [push, pull_request]
 
 env:
   DB_DATABASE: my_db_test
