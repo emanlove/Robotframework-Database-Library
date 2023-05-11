@@ -69,9 +69,9 @@ Verify person Description
     ${output} =    Set Variable    ${queryResults[0]}
     Should Be Equal As Strings    ${output}    ('id', <class 'int'>, None, 10, 10, 0, True)
     ${output} =    Set Variable    ${queryResults[1]}
-    Should Be Equal As Strings    ${output}    ('first_name', <class 'int'>, None, 20, 20, 0, True)
+    Should Be Equal As Strings    ${output}    ('first_name', <class 'str'>, None, 20, 20, 0, True)
     ${output} =    Set Variable    ${queryResults[2]}
-    Should Be Equal As Strings    ${output}    ('last_name', <class 'int'>, None, 20, 20, 0, True)
+    Should Be Equal As Strings    ${output}    ('last_name', <class 'str'>, None, 20, 20, 0, True)
     ${NumColumns} =    Get Length    ${queryResults}
     Should Be Equal As Integers    ${NumColumns}    3
 
