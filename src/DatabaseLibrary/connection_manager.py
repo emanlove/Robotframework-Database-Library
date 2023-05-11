@@ -93,6 +93,7 @@ class ConnectionManager(object):
         else:
             self.db_api_module_name = dbapiModuleName
             db_api_2 = importlib.import_module(dbapiModuleName)
+
         if dbapiModuleName in ["MySQLdb", "pymysql"]:
             dbPort = dbPort or 3306
             logger.info('Connecting using : %s.connect(db=%s, user=%s, passwd=%s, host=%s, port=%s, charset=%s) ' % (dbapiModuleName, dbName, dbUsername, dbPassword, dbHost, dbPort, dbCharset))
