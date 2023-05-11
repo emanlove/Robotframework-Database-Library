@@ -63,7 +63,7 @@ Retrieve records from person table
 
 Verify person Description
     Comment    Query db for table column descriptions
-    @{queryResults} =    Description    SELECT TOP 1 * FROM person;
+    @{queryResults} =    Description    SELECT * FROM person LIMIT 1;
     Log Many    @{queryResults}
     ${output} =    Set Variable    ${queryResults[0]}
     Should Be Equal As Strings    ${output}    (u'id', 3, None, None, None, None, None)
@@ -76,7 +76,7 @@ Verify person Description
 
 Verify foobar Description
     Comment    Query db for table column descriptions
-    @{queryResults} =    Description    SELECT TOP 1 * FROM foobar;
+    @{queryResults} =    Description    SELECT * FROM foobar LIMIT 1;
     Log Many    @{queryResults}
     ${output} =    Set Variable    ${queryResults[0]}
     Should Be Equal As Strings    ${output}    (u'id', 3, None, None, None, None, None)
@@ -129,7 +129,7 @@ Verify Query - Row Count foobar table 0 row
     Row Count Is 0    SELECT * FROM foobar;
 
 Begin first transaction
-    ${output} =    Execute SQL String    SAVE TRANSACTION first    True
+    ${output} =    Execute SQL String    SAVE TRANSACTION first;    True
     Log    ${output}
     Should Be Equal As Strings    ${output}    None
 
@@ -142,7 +142,7 @@ Verify person in first transaction
     Row Count is Equal to X    SELECT * FROM person WHERE last_name = 'Baggins';    1    True
 
 Begin second transaction
-    ${output} =    Execute SQL String    SAVE TRANSACTION second    True
+    ${output} =    Execute SQL String    SAVE TRANSACTION second;    True
     Log    ${output}
     Should Be Equal As Strings    ${output}    None
 
@@ -155,7 +155,7 @@ Verify persons in first and second transactions
     Row Count is Equal to X    SELECT * FROM person WHERE last_name = 'Baggins';    2    True
 
 Rollback second transaction
-    ${output} =    Execute SQL String    ROLLBACK TRANSACTION second    True
+    ${output} =    Execute SQL String    ROLLBACK TRANSACTION second;    True
     Log    ${output}
     Should Be Equal As Strings    ${output}    None
 
@@ -163,7 +163,7 @@ Verify second transaction rollback
     Row Count is Equal to X    SELECT * FROM person WHERE last_name = 'Baggins';    1    True
 
 Rollback first transaction
-    ${output} =    Execute SQL String    ROLLBACK TRANSACTION first    True
+    ${output} =    Execute SQL String    ROLLBACK TRANSACTION first;    True
     Log    ${output}
     Should Be Equal As Strings    ${output}    None
 
