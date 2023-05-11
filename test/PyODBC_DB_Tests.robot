@@ -2,6 +2,7 @@
 Suite Setup       Connect To Database    ${DBModule}    ${DBName}    ${DBUser}    ${DBPass}    dbHost=${DBHost}    dbPort=${DBPort}    dbCharset=${DBCharset}    dbDriver=${dbDriver}
 Suite Teardown    Disconnect From Database
 Library           DatabaseLibrary
+Library           Collections
 Library           OperatingSystem
 
 *** Variables ***
@@ -129,7 +130,7 @@ Verify Query - Row Count foobar table 0 row
     Row Count Is 0    SELECT * FROM foobar;
 
 Begin first transaction
-    ${output} =    Execute SQL String    SAVE TRANSACTION first;    True
+    ${output} =    Execute SQL String    SAVEPOINT first    True
     Log    ${output}
     Should Be Equal As Strings    ${output}    None
 
@@ -142,7 +143,7 @@ Verify person in first transaction
     Row Count is Equal to X    SELECT * FROM person WHERE last_name = 'Baggins';    1    True
 
 Begin second transaction
-    ${output} =    Execute SQL String    SAVE TRANSACTION second;    True
+    ${output} =    Execute SQL String    SAVEPOINT second    True
     Log    ${output}
     Should Be Equal As Strings    ${output}    None
 
@@ -155,7 +156,7 @@ Verify persons in first and second transactions
     Row Count is Equal to X    SELECT * FROM person WHERE last_name = 'Baggins';    2    True
 
 Rollback second transaction
-    ${output} =    Execute SQL String    ROLLBACK TRANSACTION second;    True
+    ${output} =    Execute SQL String    ROLLBACK TO second    True
     Log    ${output}
     Should Be Equal As Strings    ${output}    None
 
@@ -163,7 +164,7 @@ Verify second transaction rollback
     Row Count is Equal to X    SELECT * FROM person WHERE last_name = 'Baggins';    1    True
 
 Rollback first transaction
-    ${output} =    Execute SQL String    ROLLBACK TRANSACTION first;    True
+    ${output} =    Execute SQL String    ROLLBACK TO first    True
     Log    ${output}
     Should Be Equal As Strings    ${output}    None
 
