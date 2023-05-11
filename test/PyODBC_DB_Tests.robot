@@ -67,11 +67,11 @@ Verify person Description
     @{queryResults} =    Description    SELECT * FROM person LIMIT 1;
     Log Many    @{queryResults}
     ${output} =    Set Variable    ${queryResults[0]}
-    Should Be Equal As Strings    ${output}    (u'id', 3, None, None, None, None, None)
+    Should Be Equal As Strings    ${output}    ('id', <class 'int'>, None, 10, 10, 0, True)
     ${output} =    Set Variable    ${queryResults[1]}
-    Should Be Equal As Strings    ${output}    (u'first_name', 1, None, None, None, None, None)
+    Should Be Equal As Strings    ${output}    ('first_name', <class 'int'>, None, 20, 20, 0, True)
     ${output} =    Set Variable    ${queryResults[2]}
-    Should Be Equal As Strings    ${output}    (u'last_name', 1, None, None, None, None, None)
+    Should Be Equal As Strings    ${output}    ('last_name', <class 'int'>, None, 20, 20, 0, True)
     ${NumColumns} =    Get Length    ${queryResults}
     Should Be Equal As Integers    ${NumColumns}    3
 
@@ -80,9 +80,9 @@ Verify foobar Description
     @{queryResults} =    Description    SELECT * FROM foobar LIMIT 1;
     Log Many    @{queryResults}
     ${output} =    Set Variable    ${queryResults[0]}
-    Should Be Equal As Strings    ${output}    (u'id', 3, None, None, None, None, None)
+    Should Be Equal As Strings    ${output}    ('id', <class 'int'>, None, 10, 10, 0, False)
     ${output} =    Set Variable    ${queryResults[1]}
-    Should Be Equal As Strings    ${output}    (u'firstname', 1, None, None, None, None, None)
+    Should Be Equal As Strings    ${output}    ('firstname', <class 'str'>, None, 20, 20, 0, True)
     ${NumColumns} =    Get Length    ${queryResults}
     Should Be Equal As Integers    ${NumColumns}    2
 
@@ -99,8 +99,8 @@ Verify Query - Row Count foobar table
 Verify Query - Get results as a list of dictionaries
     ${output} =    Query    SELECT * FROM person;    \    True
     Log    ${output}
-    Should Be Equal As Strings    &{output[0]}[first_name]    Franz Allan
-    Should Be Equal As Strings    &{output[1]}[first_name]    Jerry
+    Should Be Equal As Strings    ${output}[0][first_name]    Franz Allan
+    Should Be Equal As Strings    ${output}[1][first_name]    Jerry
 
 Verify Execute SQL String - Row Count person table
     ${output} =    Execute SQL String    SELECT COUNT(*) FROM person;
