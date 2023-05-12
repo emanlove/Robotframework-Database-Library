@@ -1,6 +1,6 @@
 name: PostgreSQL Database Tests
 
-on: pull_request
+on: [push, pull_request]
 
 env:
   DB_DATABASE: db

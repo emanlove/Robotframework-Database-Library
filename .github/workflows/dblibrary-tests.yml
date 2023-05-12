@@ -1,6 +1,7 @@
 name: Database Library Tests
 
-on: [push, pull_request]
+#on: [push, pull_request]
+on: [workflow_dispatch]
 
 env:
   DB_DATABASE: my_db_test

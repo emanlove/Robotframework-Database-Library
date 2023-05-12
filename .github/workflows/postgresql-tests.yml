@@ -1,10 +1,6 @@
 name: PostgreSQL Database Tests
 
-on: 
-  workflow_dispatch:
-    branches: [github-actions]
-  push:
-    branches: [github-actions]
+on: [push, pull_request]
 
 env:
   DB_DATABASE: my_db_test
