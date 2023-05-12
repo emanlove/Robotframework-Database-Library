@@ -34,7 +34,7 @@ jobs:
 
       - uses: actions/setup-python@v2
         with:
-          python-version: '3.8.7'
+          python-version: '3.8.14'
 
       - name: Setup Python dependencies
         run: |
