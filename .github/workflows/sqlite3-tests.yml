@@ -1,6 +1,6 @@
 name: SQLite3 Database Tests
 
-on: pull_request
+on: [push, pull_request]
 
 jobs:
   run-robotframework-tests-sqlite:
@@ -14,7 +14,7 @@ jobs:
 
       - uses: actions/setup-python@v2
         with:
-          python-version: '3.8.7'
+          python-version: '3.8.14'
 
       - name: Setup Python dependencies
         run: |
