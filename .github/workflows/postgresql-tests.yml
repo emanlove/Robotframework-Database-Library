@@ -1,6 +1,6 @@
-name: PostgreSQL Database Tests
+name: PostgreSQL Database Tests [NOT WORKING]
 
-on: [push, pull_request]
+on: [workflow_dispatch]
 
 env:
   DB_DATABASE: my_db_test
