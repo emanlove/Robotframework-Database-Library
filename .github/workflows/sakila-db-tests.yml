@@ -35,29 +35,49 @@ jobs:
         run: |
           mysql -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }} -D${{ matrix.py-db-module }} < /tmp/sakila-db/sakila-schema.sql
           mysql -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }} -D${{ matrix.py-db-module }} < /tmp/sakila-db/sakila-data.sql
-      - name: Setup MySQL ODBC Drivers
-        #  sudo apt-get install libmyodbc      
-          # wget -qO - https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
-          # sudo sh -c 'echo "deb https://packages.microsoft.com/ubuntu/18.04/prod bionic main" > /etc/apt/sources.list.d/mssql-release.list'
-          # sudo apt-get update
-          # sudo ACCEPT_EULA=Y apt-get install -y msodbcsql17
-        if: matrix.py-db-module == 'pyodbc'
+      # - name: Setup MySQL ODBC Drivers
+      #   #  sudo apt-get install libmyodbc      
+      #     # wget -qO - https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+      #     # sudo sh -c 'echo "deb https://packages.microsoft.com/ubuntu/18.04/prod bionic main" > /etc/apt/sources.list.d/mssql-release.list'
+      #     # sudo apt-get update
+      #     # sudo ACCEPT_EULA=Y apt-get install -y msodbcsql17
+      #   if: matrix.py-db-module == 'pyodbc'
+      #   run: |
+      #     sudo apt-get install libssl1.0.0 libssl-dev
+      #     echo "-- /etc/odbc.ini --"
+      #     sudo cat /etc/odbc.ini
+      #     echo "-------------------"
+      #     sudo sh -c 'cat << EOF >> /etc/odbcinst.ini
+      #     Trace = yes
+      #     TraceFile = ${{ github.workspace }}/test/odbctrace.log
+      #     EOF'
+      #     echo "-- /etc/odbcinst.ini --"
+      #     sudo cat /etc/odbcinst.ini
+      #     echo "-----------------------"
+      #     odbcinst -j
+      #     # sudo ln -s /usr/local/etc/odbcinst.ini /etc/odbcinst.ini
+      #     # sudo ln -s /usr/local/etc/odbc.ini /etc/odbc.ini
+      - name: Install ODBC driver for MySQL
         run: |
-          sudo apt-get install libssl1.0.0 libssl-dev
-          echo "-- /etc/odbc.ini --"
-          sudo cat /etc/odbc.ini
-          echo "-------------------"
-          sudo sh -c 'cat << EOF >> /etc/odbcinst.ini
-          Trace = yes
-          TraceFile = ${{ github.workspace }}/test/odbctrace.log
-          EOF'
-          echo "-- /etc/odbcinst.ini --"
-          sudo cat /etc/odbcinst.ini
-          echo "-----------------------"
-          odbcinst -j
-          # sudo ln -s /usr/local/etc/odbcinst.ini /etc/odbcinst.ini
-          # sudo ln -s /usr/local/etc/odbc.ini /etc/odbc.ini
-      - name: Setup MySQL ODBC Drivers
+          cd "$RUNNER_TEMP"
+          echo "*** download driver zip file"
+          curl --silent --show-error --write-out "$CURL_OUTPUT_FORMAT" -O "https://www.mirrorservice.org/sites/ftp.mysql.com/Downloads/Connector-ODBC/8.0/${MYSQL_DRIVER}.tar.gz"
+          ls -l "${MYSQL_DRIVER}.tar.gz"
+          tar -xz -f "${MYSQL_DRIVER}.tar.gz"
+          echo "*** copy driver file to /usr/lib"
+          sudo cp -v "${MYSQL_DRIVER}/lib/libmyodbc8a.so" /usr/lib/x86_64-linux-gnu/odbc/
+          sudo chmod a+r /usr/lib/x86_64-linux-gnu/odbc/libmyodbc8a.so
+          echo "*** create odbcinst.ini entry"
+          echo '[MySQL ODBC 8.0 ANSI Driver]' > mysql_odbcinst.ini
+          echo 'Driver     = /usr/lib/x86_64-linux-gnu/odbc/libmyodbc8a.so' >> mysql_odbcinst.ini
+          echo 'UsageCount = 1' >> mysql_odbcinst.ini
+          echo 'Threading  = 2' >> mysql_odbcinst.ini
+          sudo odbcinst -i -d -f mysql_odbcinst.ini
+        env:
+          CURL_OUTPUT_FORMAT: '%{http_code} %{filename_effective} %{size_download} %{time_total}\n'
+          MYSQL_DRIVER: mysql-connector-odbc-8.0.22-linux-glibc2.12-x86-64bit
+  
+      - name: Setup pymssql ODBC Drivers
         if: matrix.py-db-module == 'pymssql'
         run: |
           sudo apt-get install tdsodbc
