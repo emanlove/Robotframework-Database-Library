@@ -20,11 +20,24 @@ very, large.
 Given the possibilities we will start with looking from the perspective of Python modules
 (as compared to databases) and limit it to those nine currently supported by test code.
 
-Databases and Python Modules
+Database Systems and Python Modules
 ----------------------------
 
-There are a variety of databases and Python modules that the DatabaseLibrary supports. This
+There are a variety of database systems and Python modules that the DatabaseLibrary supports. This
 chart is intended to keep track of those implemented and resources around them.
+
+
+==================================  ===========  ==========================  =======================================
+    Database Systems                    module       ..something..               Comment
+==================================  ===========  ==========================  =======================================
+MySQL                               pymysql
+                                    pyodbc
+==================================  ===========  ==========================  =======================================
+PostgreSQL                          psycopg2
+                                    psycopg3
+                                    pyodbc
+==================================  ===========  ==========================  =======================================
+
 
 ==================================  ===========  ==========================  =======================================
     Database                            module       ..something..               Comment
@@ -35,5 +48,5 @@ Sub-Etha                            h2g2                                     The
 
 References:
 
-PEP 249 – Python Database API Specification v2.0   https://peps.python.org/pep-0249/
-database interfaces available for Python   https://wiki.python.org/moin/DatabaseInterfaces
+`PEP 249 – Python Database API Specification v2.0<https://peps.python.org/pep-0249/>`_
+`Database interfaces available for Python<https://wiki.python.org/moin/DatabaseInterfaces>`_
