@@ -1,4 +1,4 @@
-name: PostgreSQL Database Tests
+name: PostgreSQL via psycopg2 Database Tests
 
 on: [push, pull_request]
 
