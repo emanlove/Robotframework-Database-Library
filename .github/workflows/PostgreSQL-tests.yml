@@ -3,18 +3,29 @@ name: PostgreSQL (psycopg2) Tests
 on: [push, pull_request]
 
 env:
-  DB_DATABASE: db
+  #DB_DATABASE: db
   DB_USER: postgres
   DB_PASSWORD: postgres
   DB_HOST: postgres
   DB_PORT: 5432
-  DB_MODULE: psycopg2
+  #DB_MODULE: psycopg2
 
 jobs:
   run-robotframework-tests-psycopg2:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
+      matrix:
+        include:
+          - db-name: db_psycopg2
+            py-db-module: psycopg2
+            #pip-install: pymysql
+          - db-name: db_psycopg3
+            py-db-module: psycopg3
+            #pip-install: psycopg3     
+          - db-name: db_pyodbc
+            py-db-module: pyodbc
+            #pip-install: mysqlclient
 
     services:
       postgres:
@@ -40,7 +51,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install ${{ env.DB_MODULE }}
+          pip install ${{ matrix.py-db-module }}
 
       - name: Install Development/Checked out version of DatabaseLibrary
         run: |
@@ -58,10 +69,10 @@ jobs:
           echo "DB_HOST=localhost" >> $GITHUB_ENV
           echo "DB_PORT=${{ job.services.postgres.ports[5432] }}" >> $GITHUB_ENV
 
-      - name: Run Robot Framework tests using psycopg2
+      - name: Run Robot Framework tests using ${{ matrix.py-db-module }}
         working-directory: ./test
         run: |
-          robot -T --xunit result.xml -d results/ -v DBModule:${{ env.DB_MODULE }} -v DBName:${{ env.DB_DATABASE }} -v DBUser:${{ env.DB_USER }} -v DBPass:${{ env.DB_PASSWORD }} -v DBHost:${{ env.DB_HOST }} -v DBPort:${{ env.DB_PORT }} ${{ github.workspace }}/test/PostgreSQL_DB_Tests.robot
+          robot -T --xunit result.xml -d results/ -v DBModule:${{ matrix.py-db-module }} -v DBName:${{ matrix.db-name }} -v DBUser:${{ env.DB_USER }} -v DBPass:${{ env.DB_PASSWORD }} -v DBHost:${{ env.DB_HOST }} -v DBPort:${{ env.DB_PORT }} ${{ github.workspace }}/test/PostgreSQL_DB_Tests.robot
 
       - name: Upload Robot Logs
         if: ${{ always() }}
