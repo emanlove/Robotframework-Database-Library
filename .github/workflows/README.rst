@@ -48,5 +48,6 @@ Sub-Etha                            h2g2                                     The
 
 References:
 
-`PEP 249 – Python Database API Specification v2.0<https://peps.python.org/pep-0249/>`_
+`PEP 249 - Python Database API Specification v2.0<https://peps.python.org/pep-0249/>`_
+
 `Database interfaces available for Python<https://wiki.python.org/moin/DatabaseInterfaces>`_
